@@ -1,0 +1,1250 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "5370fa72",
+   "metadata": {
+    "papermill": {
+     "duration": 0.004349,
+     "end_time": "2025-07-27T15:45:07.007726",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:07.003377",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "🔧 **Step 0: Setting Up the Environment (Importing Libraries)**\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "23c3ed27",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-07-27T15:45:07.016651Z",
+     "iopub.status.busy": "2025-07-27T15:45:07.016274Z",
+     "iopub.status.idle": "2025-07-27T15:45:11.861246Z",
+     "shell.execute_reply": "2025-07-27T15:45:11.860384Z"
+    },
+    "papermill": {
+     "duration": 4.85139,
+     "end_time": "2025-07-27T15:45:11.863038",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:07.011648",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "import matplotlib.pyplot as plt\n",
+    "import seaborn as sns\n",
+    "import plotly.express as px"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "415b4060",
+   "metadata": {
+    "papermill": {
+     "duration": 0.003326,
+     "end_time": "2025-07-27T15:45:11.870285",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:11.866959",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "🎓 **Student Performance Data - Read into dataset**\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "06521a80",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-07-27T15:45:11.879558Z",
+     "iopub.status.busy": "2025-07-27T15:45:11.878424Z",
+     "iopub.status.idle": "2025-07-27T15:45:11.911262Z",
+     "shell.execute_reply": "2025-07-27T15:45:11.910455Z"
+    },
+    "papermill": {
+     "duration": 0.039003,
+     "end_time": "2025-07-27T15:45:11.912911",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:11.873908",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "df = pd.read_csv(\"/kaggle/input/student-academic-performance-dataset/student_info.csv\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9df3c5e1",
+   "metadata": {
+    "papermill": {
+     "duration": 0.003199,
+     "end_time": "2025-07-27T15:45:11.919757",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:11.916558",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "**👀 Quick look at the data**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "b52bb369",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-07-27T15:45:11.927777Z",
+     "iopub.status.busy": "2025-07-27T15:45:11.927459Z",
+     "iopub.status.idle": "2025-07-27T15:45:11.956354Z",
+     "shell.execute_reply": "2025-07-27T15:45:11.955391Z"
+    },
+    "papermill": {
+     "duration": 0.034654,
+     "end_time": "2025-07-27T15:45:11.957795",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:11.923141",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>student_id</th>\n",
+       "      <th>name</th>\n",
+       "      <th>gender</th>\n",
+       "      <th>age</th>\n",
+       "      <th>grade_level</th>\n",
+       "      <th>math_score</th>\n",
+       "      <th>reading_score</th>\n",
+       "      <th>writing_score</th>\n",
+       "      <th>attendance_rate</th>\n",
+       "      <th>parent_education</th>\n",
+       "      <th>study_hours</th>\n",
+       "      <th>internet_access</th>\n",
+       "      <th>lunch_type</th>\n",
+       "      <th>extra_activities</th>\n",
+       "      <th>final_result</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>S1</td>\n",
+       "      <td>Student_1</td>\n",
+       "      <td>Other</td>\n",
+       "      <td>17</td>\n",
+       "      <td>10</td>\n",
+       "      <td>74</td>\n",
+       "      <td>61</td>\n",
+       "      <td>90</td>\n",
+       "      <td>94.660002</td>\n",
+       "      <td>Master's</td>\n",
+       "      <td>4.120192</td>\n",
+       "      <td>Yes</td>\n",
+       "      <td>Free or reduced</td>\n",
+       "      <td>Yes</td>\n",
+       "      <td>Fail</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>S2</td>\n",
+       "      <td>Student_2</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>17</td>\n",
+       "      <td>12</td>\n",
+       "      <td>99</td>\n",
+       "      <td>70</td>\n",
+       "      <td>91</td>\n",
+       "      <td>93.173227</td>\n",
+       "      <td>Bachelor's</td>\n",
+       "      <td>2.886505</td>\n",
+       "      <td>No</td>\n",
+       "      <td>Free or reduced</td>\n",
+       "      <td>No</td>\n",
+       "      <td>Pass</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>S3</td>\n",
+       "      <td>Student_3</td>\n",
+       "      <td>Other</td>\n",
+       "      <td>17</td>\n",
+       "      <td>9</td>\n",
+       "      <td>59</td>\n",
+       "      <td>60</td>\n",
+       "      <td>99</td>\n",
+       "      <td>98.631098</td>\n",
+       "      <td>PhD</td>\n",
+       "      <td>1.909926</td>\n",
+       "      <td>No</td>\n",
+       "      <td>Free or reduced</td>\n",
+       "      <td>No</td>\n",
+       "      <td>Fail</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>S4</td>\n",
+       "      <td>Student_4</td>\n",
+       "      <td>Other</td>\n",
+       "      <td>17</td>\n",
+       "      <td>12</td>\n",
+       "      <td>70</td>\n",
+       "      <td>88</td>\n",
+       "      <td>69</td>\n",
+       "      <td>96.419620</td>\n",
+       "      <td>PhD</td>\n",
+       "      <td>1.664740</td>\n",
+       "      <td>No</td>\n",
+       "      <td>Standard</td>\n",
+       "      <td>No</td>\n",
+       "      <td>Pass</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>S5</td>\n",
+       "      <td>Student_5</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>15</td>\n",
+       "      <td>9</td>\n",
+       "      <td>85</td>\n",
+       "      <td>77</td>\n",
+       "      <td>94</td>\n",
+       "      <td>91.332105</td>\n",
+       "      <td>PhD</td>\n",
+       "      <td>2.330918</td>\n",
+       "      <td>Yes</td>\n",
+       "      <td>Free or reduced</td>\n",
+       "      <td>No</td>\n",
+       "      <td>Pass</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "  student_id       name gender  age  grade_level  math_score  reading_score  \\\n",
+       "0         S1  Student_1  Other   17           10          74             61   \n",
+       "1         S2  Student_2   Male   17           12          99             70   \n",
+       "2         S3  Student_3  Other   17            9          59             60   \n",
+       "3         S4  Student_4  Other   17           12          70             88   \n",
+       "4         S5  Student_5   Male   15            9          85             77   \n",
+       "\n",
+       "   writing_score  attendance_rate parent_education  study_hours  \\\n",
+       "0             90        94.660002         Master's     4.120192   \n",
+       "1             91        93.173227       Bachelor's     2.886505   \n",
+       "2             99        98.631098              PhD     1.909926   \n",
+       "3             69        96.419620              PhD     1.664740   \n",
+       "4             94        91.332105              PhD     2.330918   \n",
+       "\n",
+       "  internet_access       lunch_type extra_activities final_result  \n",
+       "0             Yes  Free or reduced              Yes         Fail  \n",
+       "1              No  Free or reduced               No         Pass  \n",
+       "2              No  Free or reduced               No         Fail  \n",
+       "3              No         Standard               No         Pass  \n",
+       "4             Yes  Free or reduced               No         Pass  "
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "00b8ce52",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-07-27T15:45:11.967439Z",
+     "iopub.status.busy": "2025-07-27T15:45:11.967056Z",
+     "iopub.status.idle": "2025-07-27T15:45:11.994919Z",
+     "shell.execute_reply": "2025-07-27T15:45:11.993756Z"
+    },
+    "papermill": {
+     "duration": 0.034183,
+     "end_time": "2025-07-27T15:45:11.996228",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:11.962045",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'pandas.core.frame.DataFrame'>\n",
+      "RangeIndex: 1000 entries, 0 to 999\n",
+      "Data columns (total 15 columns):\n",
+      " #   Column            Non-Null Count  Dtype  \n",
+      "---  ------            --------------  -----  \n",
+      " 0   student_id        1000 non-null   object \n",
+      " 1   name              1000 non-null   object \n",
+      " 2   gender            1000 non-null   object \n",
+      " 3   age               1000 non-null   int64  \n",
+      " 4   grade_level       1000 non-null   int64  \n",
+      " 5   math_score        1000 non-null   int64  \n",
+      " 6   reading_score     1000 non-null   int64  \n",
+      " 7   writing_score     1000 non-null   int64  \n",
+      " 8   attendance_rate   1000 non-null   float64\n",
+      " 9   parent_education  1000 non-null   object \n",
+      " 10  study_hours       1000 non-null   float64\n",
+      " 11  internet_access   1000 non-null   object \n",
+      " 12  lunch_type        1000 non-null   object \n",
+      " 13  extra_activities  1000 non-null   object \n",
+      " 14  final_result      1000 non-null   object \n",
+      "dtypes: float64(2), int64(5), object(8)\n",
+      "memory usage: 117.3+ KB\n"
+     ]
+    }
+   ],
+   "source": [
+    "df.info()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "d28bc899",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-07-27T15:45:12.005452Z",
+     "iopub.status.busy": "2025-07-27T15:45:12.005101Z",
+     "iopub.status.idle": "2025-07-27T15:45:12.033225Z",
+     "shell.execute_reply": "2025-07-27T15:45:12.032222Z"
+    },
+    "papermill": {
+     "duration": 0.034709,
+     "end_time": "2025-07-27T15:45:12.034939",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:12.000230",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>age</th>\n",
+       "      <th>grade_level</th>\n",
+       "      <th>math_score</th>\n",
+       "      <th>reading_score</th>\n",
+       "      <th>writing_score</th>\n",
+       "      <th>attendance_rate</th>\n",
+       "      <th>study_hours</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>count</th>\n",
+       "      <td>1000.000000</td>\n",
+       "      <td>1000.000000</td>\n",
+       "      <td>1000.000000</td>\n",
+       "      <td>1000.000000</td>\n",
+       "      <td>1000.000000</td>\n",
+       "      <td>1000.000000</td>\n",
+       "      <td>1000.000000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>mean</th>\n",
+       "      <td>15.999000</td>\n",
+       "      <td>10.473000</td>\n",
+       "      <td>75.165000</td>\n",
+       "      <td>74.293000</td>\n",
+       "      <td>75.150000</td>\n",
+       "      <td>89.879179</td>\n",
+       "      <td>2.978380</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>std</th>\n",
+       "      <td>0.817109</td>\n",
+       "      <td>1.136029</td>\n",
+       "      <td>14.304349</td>\n",
+       "      <td>14.312652</td>\n",
+       "      <td>14.395094</td>\n",
+       "      <td>5.725007</td>\n",
+       "      <td>1.167780</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>min</th>\n",
+       "      <td>15.000000</td>\n",
+       "      <td>9.000000</td>\n",
+       "      <td>50.000000</td>\n",
+       "      <td>50.000000</td>\n",
+       "      <td>50.000000</td>\n",
+       "      <td>80.000614</td>\n",
+       "      <td>1.015673</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25%</th>\n",
+       "      <td>15.000000</td>\n",
+       "      <td>9.000000</td>\n",
+       "      <td>63.000000</td>\n",
+       "      <td>62.000000</td>\n",
+       "      <td>63.000000</td>\n",
+       "      <td>84.971772</td>\n",
+       "      <td>1.955287</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>50%</th>\n",
+       "      <td>16.000000</td>\n",
+       "      <td>10.000000</td>\n",
+       "      <td>75.000000</td>\n",
+       "      <td>74.000000</td>\n",
+       "      <td>75.000000</td>\n",
+       "      <td>89.980889</td>\n",
+       "      <td>2.962665</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>75%</th>\n",
+       "      <td>17.000000</td>\n",
+       "      <td>12.000000</td>\n",
+       "      <td>88.000000</td>\n",
+       "      <td>86.000000</td>\n",
+       "      <td>88.000000</td>\n",
+       "      <td>94.629778</td>\n",
+       "      <td>3.994360</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>max</th>\n",
+       "      <td>17.000000</td>\n",
+       "      <td>12.000000</td>\n",
+       "      <td>99.000000</td>\n",
+       "      <td>99.000000</td>\n",
+       "      <td>99.000000</td>\n",
+       "      <td>99.954988</td>\n",
+       "      <td>4.997843</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "               age  grade_level   math_score  reading_score  writing_score  \\\n",
+       "count  1000.000000  1000.000000  1000.000000    1000.000000    1000.000000   \n",
+       "mean     15.999000    10.473000    75.165000      74.293000      75.150000   \n",
+       "std       0.817109     1.136029    14.304349      14.312652      14.395094   \n",
+       "min      15.000000     9.000000    50.000000      50.000000      50.000000   \n",
+       "25%      15.000000     9.000000    63.000000      62.000000      63.000000   \n",
+       "50%      16.000000    10.000000    75.000000      74.000000      75.000000   \n",
+       "75%      17.000000    12.000000    88.000000      86.000000      88.000000   \n",
+       "max      17.000000    12.000000    99.000000      99.000000      99.000000   \n",
+       "\n",
+       "       attendance_rate  study_hours  \n",
+       "count      1000.000000  1000.000000  \n",
+       "mean         89.879179     2.978380  \n",
+       "std           5.725007     1.167780  \n",
+       "min          80.000614     1.015673  \n",
+       "25%          84.971772     1.955287  \n",
+       "50%          89.980889     2.962665  \n",
+       "75%          94.629778     3.994360  \n",
+       "max          99.954988     4.997843  "
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.describe()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "198e00a3",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-07-27T15:45:12.044995Z",
+     "iopub.status.busy": "2025-07-27T15:45:12.044648Z",
+     "iopub.status.idle": "2025-07-27T15:45:12.052392Z",
+     "shell.execute_reply": "2025-07-27T15:45:12.051541Z"
+    },
+    "papermill": {
+     "duration": 0.014401,
+     "end_time": "2025-07-27T15:45:12.053856",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:12.039455",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "student_id          0\n",
+       "name                0\n",
+       "gender              0\n",
+       "age                 0\n",
+       "grade_level         0\n",
+       "math_score          0\n",
+       "reading_score       0\n",
+       "writing_score       0\n",
+       "attendance_rate     0\n",
+       "parent_education    0\n",
+       "study_hours         0\n",
+       "internet_access     0\n",
+       "lunch_type          0\n",
+       "extra_activities    0\n",
+       "final_result        0\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.isnull().sum()\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f527f71d",
+   "metadata": {
+    "papermill": {
+     "duration": 0.004856,
+     "end_time": "2025-07-27T15:45:12.063104",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:12.058248",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "🎓 **Student Age Histogram**\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "403bcebf",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-07-27T15:45:12.072542Z",
+     "iopub.status.busy": "2025-07-27T15:45:12.072183Z",
+     "iopub.status.idle": "2025-07-27T15:45:12.387230Z",
+     "shell.execute_reply": "2025-07-27T15:45:12.386398Z"
+    },
+    "papermill": {
+     "duration": 0.321514,
+     "end_time": "2025-07-27T15:45:12.388710",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:12.067196",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/usr/local/lib/python3.11/dist-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.\n",
+      "  with pd.option_context('mode.use_inf_as_na', True):\n"
+     ]
+    },
+    {
+     "data": {
+      "image/png": "iVBORw0KGgoAAAANSUhEUgAAArcAAAHWCAYAAABt3aEVAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjcuMiwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZy8pXeV/AAAACXBIWXMAAA9hAAAPYQGoP6dpAAA+QElEQVR4nO3de3zP9eP///vL7OC0zWinbHMMw5C09ibEMqzi3fpGbwlvh/KeCn2kFZHexVsHSqLeH1kHcugSCmEOm8oUKzmVN95Csa1oJzG2PX5/9Nvr08s2bLa9tqfb9XJ5Xi6ej8fj+Xg+no+em7tnj9fzZTPGGAEAAAAWUMPZAwAAAADKC+EWAAAAlkG4BQAAgGUQbgEAAGAZhFsAAABYBuEWAAAAlkG4BQAAgGUQbgEAAGAZhFsAAABYBuEWgGVNmzZNNputUs7Vo0cP9ejRw76fmJgom82mjz76qFLOP2zYMDVu3LhSzlVWOTk5GjlypPz9/WWz2TRu3DhnDwmABRFuAVQL8fHxstls9s3Dw0OBgYGKiorS66+/ruzs7HI5z8mTJzVt2jTt3r27XPorT1V5bFfjxRdfVHx8vMaMGaP3339fQ4YMueIx+fn5CgwMlM1m02effVYJowRQ3dV09gAAoDSmT5+uJk2a6OLFi0pNTVViYqLGjRunV199VZ988onCwsLsbSdPnqynnnqqVP2fPHlSzz33nBo3bqwOHTpc9XEbN24s1XnK4nJj+/e//62CgoIKH8O12LJli2677TZNnTq1VMecOnVKjRs31uLFi9W3b98KHCEAKyDcAqhW+vbtq1tuucW+HxcXpy1btuiuu+7SPffco++//161atWSJNWsWVM1a1bsr7nff/9dtWvXlpubW4We50pcXV2dev6rkZ6ertDQ0FId88EHH+jmm2/W0KFD9fTTT+vs2bOqU6dOBY0QgBWwLAFAtdezZ09NmTJFx44d0wcffGAvL27NbUJCgrp27Spvb2/VrVtXLVu21NNPPy3pj3WynTt3liQNHz7cvgQiPj5e0h/ratu2bauUlBR169ZNtWvXth976ZrbQvn5+Xr66afl7++vOnXq6J577tGJEycc2jRu3FjDhg0rcuyf+7zS2Ipbc3v27Fk98cQTCgoKkru7u1q2bKmXX35ZxhiHdjabTWPHjtWqVavUtm1bubu7q02bNlq/fn3xE36J9PR0jRgxQn5+fvLw8FD79u317rvv2usL1x8fPXpUa9eutY/9xx9/vGy/586d08qVKzVo0CDdf//9OnfunFavXl1s2xUrVig0NFQeHh5q27atVq5cWeycFBQUaM6cOWrTpo08PDzk5+enhx9+WL/99ttVXSuAqo9wC8ASCtdvXm55wP79+3XXXXcpNzdX06dP1yuvvKJ77rlHX375pSSpdevWmj59uiRp9OjRev/99/X++++rW7du9j5Onz6tvn37qkOHDpozZ47uuOOOy47rhRde0Nq1azVp0iQ99thjSkhIUGRkpM6dO1eq67uasf2ZMUb33HOPZs+erT59+ujVV19Vy5YtNXHiRE2YMKFI+y+++EL/+Mc/NGjQIM2aNUvnz59XTEyMTp8+fdlxnTt3Tj169ND777+vwYMH66WXXpKXl5eGDRum1157zT72999/Xw0bNlSHDh3sY7/hhhsu2/cnn3yinJwcDRo0SP7+/urRo4cWL15cpN3atWs1cOBAubq6asaMGbr33ns1YsQIpaSkFGn78MMPa+LEierSpYtee+01DR8+XIsXL1ZUVJQuXrx42fEAqCYMAFQDixYtMpLMzp07S2zj5eVlOnbsaN+fOnWq+fOvudmzZxtJ5pdffimxj507dxpJZtGiRUXqunfvbiSZBQsWFFvXvXt3+/7WrVuNJHPjjTearKwse/ny5cuNJPPaa6/Zy0JCQszQoUOv2OflxjZ06FATEhJi31+1apWRZP75z386tLvvvvuMzWYzhw8ftpdJMm5ubg5l3333nZFk5s6dW+RcfzZnzhwjyXzwwQf2sgsXLpiIiAhTt25dh2sPCQkx0dHRl+3vz+666y7TpUsX+/7bb79tatasadLT0x3atWvXzjRq1MhkZ2fbyxITE40khzn5/PPPjSSzePFih+PXr19fbDmA6okntwAso27dupd9a4K3t7ckafXq1WX+8JW7u7uGDx9+1e0feugh1atXz75/3333KSAgQOvWrSvT+a/WunXr5OLioscee8yh/IknnpAxpsibByIjI9WsWTP7flhYmDw9PfXf//73iufx9/fXAw88YC9zdXXVY489ppycHCUlJZVp/KdPn9aGDRsc+o2JiZHNZtPy5cvtZSdPntTevXv10EMPqW7duvby7t27q127dg59rlixQl5eXrrzzjv166+/2rdO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cyNJbdq0cTjmiy++cKi/Hu+ZnTt3OrRPSEiQJP2///f/HNpV5XvmSvNy5MgRde3aVa1atVJiYqL27NmjKVOmFAkef7Z9+3Y98MADGjFihL799lsNGDBAAwYM0L59++xtZs2apddff10LFizQV199pTp16igqKkrnz58v92ssq4qYm8TERD3wwAPaunWrkpOTFRQUpN69e+vnn392aFeWn9HKUhHzIv3xzVN/vuZjx4451F+v98zHH3/sMC/79u2Ti4tLkd8z1fme+fO4T506pXfeeUc2m00xMTEl9lmlsoxBmUkyK1eudCgbOnSo6d+/f6n6ufXWW01sbKx9Pz8/3wQGBpoZM2YYY4zJyMgwrq6uZsWKFfY233//vZFkkpOTyzz+ilJe83Kp9PR0I8kkJSXZy7p3724ef/zxa+q3MpXX3EydOtW0b9++xHrumT88/vjjplmzZqagoMBeVp3umeLmZeDAgebBBx8sVT/333+/iY6OdigLDw83Dz/8sDHGmIKCAuPv729eeukle31GRoZxd3c3H374YdkGX8HKa24ulZeXZ+rVq2feffdde1l53IuVpbzmZdGiRcbLy6vEeu6Z/zN79mxTr149k5OTYy+r7vfMpfr372969ux52TZVKcvw5LYCJCYmytfXVy1bttSYMWN0+vTpEtteuHBBKSkpioyMtJfVqFFDkZGRSk5OliSlpKTo4sWLDm1atWql4OBge5vqoDTzUpzMzExJko+Pj0P54sWL1bBhQ7Vt21ZxcXH6/fffy23MlaUsc3Po0CEFBgaqadOmGjx4sMP/RuOe+eNn64MPPtDf//532Ww2h7rqes8UFBRo7dq1uummmxQVFSVfX1+Fh4cX+79a/yw5OdnhXpCkqKgo+71w9OhRpaamOrTx8vJSeHh4tblfyjo3l/r999918eLFIr9nrvX3l7Ncy7zk5OQoJCREQUFB6t+/v/bv32+v4575PwsXLtSgQYNUp04dh/Lqes9cKi0tTWvXrtWIESNKbFPVsgzhtpz16dNH7733njZv3qx//etfSkpKUt++fZWfn19s+19//VX5+flFvk3Nz89PqampkqTU1FS5ubnJ29u7xDZVXWnn5VIFBQUaN26cunTporZt29rL//a3v+mDDz7Q1q1bFRcXp/fff18PPvhgRV1GhSjL3ISHhys+Pl7r16/X/PnzdfTo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\n",
+      "text/plain": [
+       "<Figure size 800x500 with 1 Axes>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "plt.figure(figsize=(8,5))\n",
+    "sns.histplot(data=df, x=\"age\", bins=20)\n",
+    "plt.title(\"Distribution of Age\")\n",
+    "plt.xlabel(\"Age\")\n",
+    "plt.ylabel(\"Count\")\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2a4a846c",
+   "metadata": {
+    "papermill": {
+     "duration": 0.004264,
+     "end_time": "2025-07-27T15:45:12.397753",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:12.393489",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "**Score Distribution by Gender**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "919c9c17",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-07-27T15:45:12.407724Z",
+     "iopub.status.busy": "2025-07-27T15:45:12.407408Z",
+     "iopub.status.idle": "2025-07-27T15:45:12.444461Z",
+     "shell.execute_reply": "2025-07-27T15:45:12.443665Z"
+    },
+    "papermill": {
+     "duration": 0.043729,
+     "end_time": "2025-07-27T15:45:12.445838",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:12.402109",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>math_score</th>\n",
+       "      <th>reading_score</th>\n",
+       "      <th>writing_score</th>\n",
+       "      <th>attendance_rate</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>gender</th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>Female</th>\n",
+       "      <td>74.420245</td>\n",
+       "      <td>74.404908</td>\n",
+       "      <td>75.128834</td>\n",
+       "      <td>90.125549</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Male</th>\n",
+       "      <td>76.771831</td>\n",
+       "      <td>75.014085</td>\n",
+       "      <td>74.267606</td>\n",
+       "      <td>89.629485</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Other</th>\n",
+       "      <td>74.137931</td>\n",
+       "      <td>73.376176</td>\n",
+       "      <td>76.153605</td>\n",
+       "      <td>89.905276</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "        math_score  reading_score  writing_score  attendance_rate\n",
+       "gender                                                           \n",
+       "Female   74.420245      74.404908      75.128834        90.125549\n",
+       "Male     76.771831      75.014085      74.267606        89.629485\n",
+       "Other    74.137931      73.376176      76.153605        89.905276"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.groupby(\"gender\").agg(\n",
+    "    math_score=(\"math_score\", \"mean\"),\n",
+    "    reading_score=(\"reading_score\", \"mean\"),\n",
+    "    writing_score=(\"writing_score\", \"mean\"),\n",
+    "    attendance_rate=(\"attendance_rate\", \"mean\"),\n",
+    "   )\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "999355f5",
+   "metadata": {
+    "papermill": {
+     "duration": 0.004471,
+     "end_time": "2025-07-27T15:45:12.455089",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:12.450618",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "**Score Distribution by Parents**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "14685064",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-07-27T15:45:12.465806Z",
+     "iopub.status.busy": "2025-07-27T15:45:12.465167Z",
+     "iopub.status.idle": "2025-07-27T15:45:12.481749Z",
+     "shell.execute_reply": "2025-07-27T15:45:12.480996Z"
+    },
+    "papermill": {
+     "duration": 0.02341,
+     "end_time": "2025-07-27T15:45:12.483043",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:12.459633",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>math_score</th>\n",
+       "      <th>reading_score</th>\n",
+       "      <th>writing_score</th>\n",
+       "      <th>attendance_rate</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>parent_education</th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>Bachelor's</th>\n",
+       "      <td>75.627737</td>\n",
+       "      <td>74.328467</td>\n",
+       "      <td>75.218978</td>\n",
+       "      <td>89.833242</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>High School</th>\n",
+       "      <td>75.404082</td>\n",
+       "      <td>73.453061</td>\n",
+       "      <td>76.461224</td>\n",
+       "      <td>90.244511</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Master's</th>\n",
+       "      <td>73.242291</td>\n",
+       "      <td>73.651982</td>\n",
+       "      <td>75.070485</td>\n",
+       "      <td>89.643861</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>PhD</th>\n",
+       "      <td>76.153543</td>\n",
+       "      <td>75.637795</td>\n",
+       "      <td>73.881890</td>\n",
+       "      <td>89.786650</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                  math_score  reading_score  writing_score  attendance_rate\n",
+       "parent_education                                                           \n",
+       "Bachelor's         75.627737      74.328467      75.218978        89.833242\n",
+       "High School        75.404082      73.453061      76.461224        90.244511\n",
+       "Master's           73.242291      73.651982      75.070485        89.643861\n",
+       "PhD                76.153543      75.637795      73.881890        89.786650"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.groupby(\"parent_education\").agg(\n",
+    "    math_score =(\"math_score\", \"mean\"),\n",
+    "    reading_score=(\"reading_score\", \"mean\"),\n",
+    "    writing_score=(\"writing_score\", \"mean\"),\n",
+    "    attendance_rate=(\"attendance_rate\", \"mean\"),\n",
+    ")\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b09ffa8c",
+   "metadata": {
+    "papermill": {
+     "duration": 0.00457,
+     "end_time": "2025-07-27T15:45:12.492674",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:12.488104",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "**Final Results Distribution by Parent Education**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "f1399db5",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-07-27T15:45:12.503756Z",
+     "iopub.status.busy": "2025-07-27T15:45:12.503015Z",
+     "iopub.status.idle": "2025-07-27T15:45:12.519946Z",
+     "shell.execute_reply": "2025-07-27T15:45:12.519232Z"
+    },
+    "papermill": {
+     "duration": 0.023686,
+     "end_time": "2025-07-27T15:45:12.521196",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:12.497510",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>pass_count</th>\n",
+       "      <th>fail_count</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>parent_education</th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>Bachelor's</th>\n",
+       "      <td>139</td>\n",
+       "      <td>135</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>High School</th>\n",
+       "      <td>134</td>\n",
+       "      <td>111</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Master's</th>\n",
+       "      <td>112</td>\n",
+       "      <td>115</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>PhD</th>\n",
+       "      <td>132</td>\n",
+       "      <td>122</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                  pass_count  fail_count\n",
+       "parent_education                        \n",
+       "Bachelor's               139         135\n",
+       "High School              134         111\n",
+       "Master's                 112         115\n",
+       "PhD                      132         122"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.groupby(\"parent_education\").agg(\n",
+    "    pass_count=(\"final_result\", lambda x: (x == \"Pass\").sum()),\n",
+    "    fail_count=(\"final_result\", lambda x: (x == \"Fail\").sum())\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7bcf534c",
+   "metadata": {
+    "papermill": {
+     "duration": 0.004762,
+     "end_time": "2025-07-27T15:45:12.531039",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:12.526277",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "**Final Results Distribution by Internet Access**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "8601e655",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-07-27T15:45:12.542180Z",
+     "iopub.status.busy": "2025-07-27T15:45:12.541877Z",
+     "iopub.status.idle": "2025-07-27T15:45:12.557108Z",
+     "shell.execute_reply": "2025-07-27T15:45:12.556281Z"
+    },
+    "papermill": {
+     "duration": 0.022701,
+     "end_time": "2025-07-27T15:45:12.558584",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:12.535883",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>pass_student</th>\n",
+       "      <th>fail_student</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>internet_access</th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>No</th>\n",
+       "      <td>256</td>\n",
+       "      <td>244</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Yes</th>\n",
+       "      <td>261</td>\n",
+       "      <td>239</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                 pass_student  fail_student\n",
+       "internet_access                            \n",
+       "No                        256           244\n",
+       "Yes                       261           239"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.groupby(\"internet_access\").agg(\n",
+    "    pass_student=(\"final_result\", lambda x: (x == \"Pass\").sum()),\n",
+    "    fail_student=(\"final_result\", lambda x: (x == \"Fail\").sum())\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ecb84018",
+   "metadata": {
+    "papermill": {
+     "duration": 0.004875,
+     "end_time": "2025-07-27T15:45:12.568688",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:12.563813",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "**Final Results Distribution by Extra Activities**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "051cd594",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-07-27T15:45:12.579919Z",
+     "iopub.status.busy": "2025-07-27T15:45:12.579615Z",
+     "iopub.status.idle": "2025-07-27T15:45:12.595431Z",
+     "shell.execute_reply": "2025-07-27T15:45:12.594597Z"
+    },
+    "papermill": {
+     "duration": 0.023166,
+     "end_time": "2025-07-27T15:45:12.596873",
+     "exception": false,
+     "start_time": "2025-07-27T15:45:12.573707",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>pass_student</th>\n",
+       "      <th>fail_student</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>extra_activities</th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>No</th>\n",
+       "      <td>241</td>\n",
+       "      <td>224</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Yes</th>\n",
+       "      <td>276</td>\n",
+       "      <td>259</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                  pass_student  fail_student\n",
+       "extra_activities                            \n",
+       "No                         241           224\n",
+       "Yes                        276           259"
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.groupby(\"extra_activities\").agg(\n",
+    "    pass_student=(\"final_result\", lambda x: (x == \"Pass\").sum()),\n",
+    "    fail_student=(\"final_result\", lambda x: (x == \"Fail\").sum())\n",
+    ")"
+   ]
+  }
+ ],
+ "metadata": {
+  "kaggle": {
+   "accelerator": "none",
+   "dataSources": [
+    {
+     "datasetId": 7399366,
+     "sourceId": 11785084,
+     "sourceType": "datasetVersion"
+    }
+   ],
+   "dockerImageVersionId": 31089,
+   "isGpuEnabled": false,
+   "isInternetEnabled": true,
+   "language": "python",
+   "sourceType": "notebook"
+  },
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.13"
+  },
+  "papermill": {
+   "default_parameters": {},
+   "duration": 11.098854,
+   "end_time": "2025-07-27T15:45:13.321980",
+   "environment_variables": {},
+   "exception": null,
+   "input_path": "__notebook__.ipynb",
+   "output_path": "__notebook__.ipynb",
+   "parameters": {},
+   "start_time": "2025-07-27T15:45:02.223126",
+   "version": "2.6.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
