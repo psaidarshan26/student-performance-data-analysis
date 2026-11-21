@@ -1,21 +1,45 @@
-# student-performance-data-analysis
-Exploratory Data Analysis of student academic performance to understand how demographic, educational, and lifestyle factors relate to students' scores and final results using Python.
+# Student Performance Data Analysis
 
-What is this project about?
-This project analyzes student academic performance using a dataset containing information about 1,000 students.
-It explores how different factors, such as age, gender, parental education, study hours, attendance, internet access, and extracurricular activities, relate to students' academic performance.
+Exploratory data analysis of student academic performance using Python, Pandas, Matplotlib and Seaborn.
 
-What does the project do?
-- Analyzes the distribution of student ages.
-- Calculates average Mathematics, Reading, and Writing scores.
-- Compares academic performance across genders.
-- Studies the relationship between parents' education and student performance.
-- Compares pass and fail results based on internet access.
-- Analyzes how extracurricular activities relate to student results.
+## Dataset
+Use the Student Academic Performance dataset and save its CSV as `data/student_info.csv`.
 
-Technologies used:
-- Python
-- Pandas
-- Matplotlib
-- Seaborn
-- Plotly
+The notebook this project is based on examines age, gender, mathematics/reading/writing scores, attendance, parent education, internet access, extra activities and final results.
+
+## Run
+```bash
+pip install -r requirements.txt
+python main.py
+```
+
+## Example output
+```text
+--- FIRST FIVE ROWS ---
+[The first five records from student_info.csv are displayed]
+
+--- MISSING VALUES ---
+[Missing-value count for each column]
+
+--- AVERAGE SCORES BY GENDER ---
+[Mean mathematics, reading and writing scores for each gender]
+
+Analysis completed. Charts are saved in the outputs/ folder.
+```
+Actual values depend on the CSV dataset you use.
+
+## Output charts
+- `outputs/age_distribution.png`
+- `outputs/scores_by_gender.png`
+- `outputs/results_by_parent_education.png`
+
+## Repository structure
+```text
+student-performance-data-analysis/
+├── data/
+│   └── student_info.csv
+├── outputs/
+├── main.py
+├── requirements.txt
+└── README.md
+```
